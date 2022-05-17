@@ -1,7 +1,7 @@
 /**
 *   Justin Nolan
 *   29.03.22
-*   WIP: Tag des Jahres
+*   Tag des Jahres
 **/
 
 
@@ -19,14 +19,14 @@ int day_of_the_year(int day, int month, int year) {
     isValidDate = exists_date(day, month, year);
 
     if (!isValidDate) {
-        printf("Invalid Date\n");
+        printf("Invalid Date\n\n");
 
         return;
     }
 
     daysOfTheYear = get_days_for_month(month, year);
 
-    day_of_the_year = day_of_the_year + day;
+    daysOfTheYear = daysOfTheYear + day;
 
     return daysOfTheYear;
 }
@@ -41,11 +41,11 @@ int get_days_for_month(int month, int year) {
 
     isLeapyear = is_leapyear(year);
 
-    for (i = 0; i <= month; i++) {
+    for (int i = 1; i <= month-1; i++) {
         daysOfTheMonth += arrMonthDays[i];
     }
 
-    if (isLeapYear && month >= 2) {
+    if (isLeapyear && month >= 2) {
         daysOfTheMonth = daysOfTheMonth + 1;
     }
 
@@ -56,9 +56,21 @@ int get_days_for_month(int month, int year) {
 *   Checks if leapyear. Return 1 if leapyear. Return 0 if no leapyear, Return -1 if invalid input
 **/
 int is_leapyear(int year) {
-    int isLeapYear;
+    int isLeapYear = -1;
 
-    isLeapYear = 0;
+    if(year % 4 == 0) {
+        if(year %100 == 0) {
+            if(year % 400 == 0) {
+                isLeapYear = 1;
+            } else {
+                isLeapYear = 0;
+            }
+        } else {
+            isLeapYear = 1;
+        }
+    } else {
+        isLeapYear = 0;
+    }
 
     return isLeapYear;
 }
@@ -86,7 +98,7 @@ int main() {
     int year = 0;
     int month = 0;
     int day = 0;
-    int dayOfTheYear;
+    int dayOfTheYear = 0;
 
     do {
         printf("Input Year\n\n");
@@ -99,9 +111,9 @@ int main() {
         scanf("%d", &day);
 
         dayOfTheYear = day_of_the_year(day, month, year);
-    } while (!day_of_the_year)
+    } while (!dayOfTheYear);
 
-    printf("It's the %d day of the year.\n", day_of_the_year);
+    printf("It's the %d day of the year.\n", dayOfTheYear);
 
     return;
 }
